@@ -1,5 +1,6 @@
 using System.CommandLine;
 using GitPullRequest.Services;
+using Spectre.Console;
 
 namespace GitPullRequest.Commands.Navigation;
 
@@ -9,7 +10,7 @@ public class TopCommand()
         "Move to the top of your current stack."
     );
 
-public class TopCommandHandler(IConsole console, INavigation navigation)
+public class TopCommandHandler(IAnsiConsole console, INavigation navigation)
     : ICommandOptionsHandler<System.CommandLine.EmptyCommandOptions>
 {
     public async Task<int> HandleAsync(

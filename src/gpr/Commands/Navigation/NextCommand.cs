@@ -9,7 +9,7 @@ public class NextCommand()
         "Switch to the next stack."
     );
 
-public class NextCommandHandler(IConsole console, INavigation navigation)
+public class NextCommandHandler(IAnsiConsole console, INavigation navigation)
     : ICommandOptionsHandler<System.CommandLine.EmptyCommandOptions>
 {
     public async Task<int> HandleAsync(

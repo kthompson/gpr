@@ -8,6 +8,7 @@ using GitPullRequest.Commands.Remote;
 using GitPullRequest.Services;
 using LibGit2Sharp;
 using Microsoft.Extensions.DependencyInjection;
+using Spectre.Console;
 
 var rootCommand = new RootCommand
 {
@@ -33,6 +34,12 @@ var rootCommand = new RootCommand
     new PullCommand(),
 };
 
+if (!Console.IsOutputRedirected && !Console.IsInputRedirected)
+{
+    Console.InputEncoding = System.Text.Encoding.UTF8;
+    Console.OutputEncoding = System.Text.Encoding.UTF8;
+}
+
 var builder = new CommandLineBuilder(rootCommand)
     .UseDefaults()
     .UseDependencyInjection(services =>
@@ -44,6 +51,7 @@ var builder = new CommandLineBuilder(rootCommand)
             return new Repository(repo);
         });
 
+        services.AddSingleton(AnsiConsole.Console);
         services.AddScoped<INavigation, Navigation>();
         services.AddSingleton<IO, SystemIO>();
     });

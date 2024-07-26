@@ -9,7 +9,7 @@ public class AmendCommand()
         "meld pending changes into the current commit"
     );
 
-public class AmendCommandHandler(IConsole console, IRepository repo)
+public class AmendCommandHandler(IAnsiConsole console, IRepository repo)
     : ICommandOptionsHandler<EmptyCommandOptions>
 {
     public async Task<int> HandleAsync(

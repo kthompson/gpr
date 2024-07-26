@@ -9,7 +9,7 @@ public class PullCommand()
         "Pull changes from the remote repository"
     );
 
-public class PullCommandHandler(IConsole console, IRepository repo)
+public class PullCommandHandler(IAnsiConsole console, IRepository repo)
     : ICommandOptionsHandler<EmptyCommandOptions>
 {
     async Task<string> Exec(string cmd, string args)

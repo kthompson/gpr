@@ -17,7 +17,7 @@ public class CommitCommandOptions : ICommandOptions
     public required string Message { get; set; }
 }
 
-public class CommitCommandOptionsHandler(IConsole console, IRepository repo)
+public class CommitCommandOptionsHandler(IAnsiConsole console, IRepository repo)
     : ICommandOptionsHandler<CommitCommandOptions>
 {
     public async Task<int> HandleAsync(

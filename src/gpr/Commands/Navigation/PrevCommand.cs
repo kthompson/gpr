@@ -9,7 +9,7 @@ public class PrevCommand()
         "Switch to the previous stack."
     );
 
-public class PrevCommandHandler(IConsole console, INavigation navigation)
+public class PrevCommandHandler(IAnsiConsole console, INavigation navigation)
     : ICommandOptionsHandler<System.CommandLine.EmptyCommandOptions>
 {
     public async Task<int> HandleAsync(

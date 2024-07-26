@@ -7,8 +7,8 @@
     <RootNamespace>GitPullRequest</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Kurukuru" Version="1.4.2" />
     <PackageReference Include="LibGit2Sharp" Version="0.30.0" />
+    <PackageReference Include="Spectre.Console" Version="0.49.1" />
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
     <PackageReference Include="System.CommandLine.Hosting" Version="0.4.0-alpha.22272.1" />
   </ItemGroup>

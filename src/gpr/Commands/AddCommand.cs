@@ -17,7 +17,7 @@ public class AddCommandOptions : ICommandOptions
     public required FileInfo UntrackedFile { get; set; }
 }
 
-public class AddCommandOptionsHandler(IConsole console, IRepository repo)
+public class AddCommandOptionsHandler(IAnsiConsole console, IRepository repo)
     : ICommandOptionsHandler<AddCommandOptions>
 {
     public async Task<int> HandleAsync(

@@ -12,7 +12,7 @@ public class BottomCommand()
 
 public class BottomCommandOptions : ICommandOptions;
 
-public class BottomCommandOptionsHandler(IConsole console, INavigation navigation)
+public class BottomCommandOptionsHandler(IAnsiConsole console, INavigation navigation)
     : ICommandOptionsHandler<BottomCommandOptions>
 {
     public async Task<int> HandleAsync(

@@ -12,7 +12,7 @@ public class StatusCommand : Command<EmptyCommandOptions, StatusCommandHandler>
     }
 }
 
-public class StatusCommandHandler(IConsole console, IRepository repo)
+public class StatusCommandHandler(IAnsiConsole console, IRepository repo)
     : ICommandOptionsHandler<EmptyCommandOptions>
 {
     public async Task<int> HandleAsync(

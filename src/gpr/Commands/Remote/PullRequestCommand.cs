@@ -9,7 +9,7 @@ public class PullRequestCommand()
         "Submit pull requests for the current stack"
     );
 
-public class PullRequestCommandHandler(IConsole console, IRepository repo)
+public class PullRequestCommandHandler(IAnsiConsole console, IRepository repo)
     : ICommandOptionsHandler<EmptyCommandOptions>
 {
     public async Task<int> HandleAsync(

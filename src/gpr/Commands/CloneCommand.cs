@@ -1,5 +1,5 @@
 using System.CommandLine;
-using Kurukuru;
+using GitPullRequest.Services;
 using LibGit2Sharp;
 
 namespace GitPullRequest.Commands;
@@ -20,7 +20,7 @@ public class CloneCommandOptions : ICommandOptions
     public required Uri Repo { get; set; }
 }
 
-public class CloneCommandOptionsHandler(IConsole console, IO io)
+public class CloneCommandOptionsHandler(IAnsiConsole console, IO io)
     : ICommandOptionsHandler<CloneCommandOptions>
 {
     public async Task<int> HandleAsync(
@@ -30,13 +30,18 @@ public class CloneCommandOptionsHandler(IConsole console, IO io)
     {
         var url = options.Repo;
         var dir = url.AbsolutePath.Split('/').Last().Replace(".git", "");
-        console.WriteLine($"Cloning {url} to {dir}");
-
-        await Spinner.StartAsync(
-            $"Cloning {url} to {dir}",
-            async spinner =>
+        
+        await console.Progress()
+            .AutoRefresh(true)
+            .HideCompleted(true)
+            .Columns([
+                new SpinnerColumn(Spinner.Known.Dots2),
+                new TaskDescriptionColumn(),
+            ])
+            .StartAsync(async context =>
             {
-                var repo = await Task.Run(
+                var task = context.AddTask($"Cloning {url} to {dir}");
+                await Task.Run(
                     () =>
                         Repository.Clone(
                             url.ToString(),
@@ -44,9 +49,9 @@ public class CloneCommandOptionsHandler(IConsole console, IO io)
                         ),
                     cancellationToken
                 );
-                spinner.Stop($"Cloned to {repo}");
-            }
-        );
-        return (0);
+                task.StopTask();
+            });
+        
+        return 0;
     }
 }

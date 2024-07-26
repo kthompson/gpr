@@ -10,7 +10,7 @@ public class DownCommand()
         "Move down your current stack."
     );
 
-public class DownCommandHandler(IConsole console, INavigation navigation)
+public class DownCommandHandler(IAnsiConsole console, INavigation navigation)
     : ICommandOptionsHandler<System.CommandLine.EmptyCommandOptions>
 {
     public async Task<int> HandleAsync(
