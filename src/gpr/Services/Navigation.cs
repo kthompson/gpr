@@ -5,7 +5,9 @@ namespace GitPullRequest.Services;
 public record Location(string Stack, string Commit, string Message);
 
 public abstract record NavigationResult;
+
 public sealed record NavigationSuccess(Location Location) : NavigationResult;
+
 public sealed record NavigationFailure(Exception Exception) : NavigationResult;
 
 public interface INavigation
@@ -21,10 +23,7 @@ public interface INavigation
 
 public class Navigation : INavigation
 {
-    public Navigation(IRepository repository)
-    {
-
-    }
+    public Navigation(IRepository repository) { }
 
     public Location CurrentLocation { get; private set; }
 

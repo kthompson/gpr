@@ -3,11 +3,19 @@ using GitPullRequest.Services;
 
 namespace GitPullRequest.Commands.Navigation;
 
-public class TopCommand() : Command<System.CommandLine.EmptyCommandOptions, TopCommandHandler>("top", "Move to the top of your current stack.");
+public class TopCommand()
+    : Command<System.CommandLine.EmptyCommandOptions, TopCommandHandler>(
+        "top",
+        "Move to the top of your current stack."
+    );
 
-public class TopCommandHandler(IConsole console, INavigation navigation) : ICommandOptionsHandler<System.CommandLine.EmptyCommandOptions>
+public class TopCommandHandler(IConsole console, INavigation navigation)
+    : ICommandOptionsHandler<System.CommandLine.EmptyCommandOptions>
 {
-    public async Task<int> HandleAsync(System.CommandLine.EmptyCommandOptions options, CancellationToken cancellationToken)
+    public async Task<int> HandleAsync(
+        System.CommandLine.EmptyCommandOptions options,
+        CancellationToken cancellationToken
+    )
     {
         switch (navigation.Top())
         {

@@ -5,15 +5,20 @@ namespace GitPullRequest.Commands;
 
 public class StatusCommand : Command<EmptyCommandOptions, StatusCommandHandler>
 {
-    public StatusCommand() : base("status", "Show the current status")
+    public StatusCommand()
+        : base("status", "Show the current status")
     {
         AddAlias("st");
     }
 }
 
-public class StatusCommandHandler(IConsole console, IRepository repo) : ICommandOptionsHandler<EmptyCommandOptions>
+public class StatusCommandHandler(IConsole console, IRepository repo)
+    : ICommandOptionsHandler<EmptyCommandOptions>
 {
-    public async Task<int> HandleAsync(EmptyCommandOptions options, CancellationToken cancellationToken)
+    public async Task<int> HandleAsync(
+        EmptyCommandOptions options,
+        CancellationToken cancellationToken
+    )
     {
         // show the current file listing
         return 0;

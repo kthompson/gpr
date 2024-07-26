@@ -3,13 +3,19 @@ using GitPullRequest.Services;
 
 namespace GitPullRequest.Commands.Navigation;
 
-public class PrevCommand() : Command<System.CommandLine.EmptyCommandOptions, PrevCommandHandler>("prev", "Switch to the previous stack.");
+public class PrevCommand()
+    : Command<System.CommandLine.EmptyCommandOptions, PrevCommandHandler>(
+        "prev",
+        "Switch to the previous stack."
+    );
 
-
-public class PrevCommandHandler(IConsole console, INavigation navigation) : ICommandOptionsHandler<System.CommandLine.EmptyCommandOptions>
+public class PrevCommandHandler(IConsole console, INavigation navigation)
+    : ICommandOptionsHandler<System.CommandLine.EmptyCommandOptions>
 {
-
-    public async Task<int> HandleAsync(System.CommandLine.EmptyCommandOptions options, CancellationToken cancellationToken)
+    public async Task<int> HandleAsync(
+        System.CommandLine.EmptyCommandOptions options,
+        CancellationToken cancellationToken
+    )
     {
         switch (navigation.Previous())
         {

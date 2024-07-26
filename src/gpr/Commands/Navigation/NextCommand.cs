@@ -3,12 +3,19 @@ using GitPullRequest.Services;
 
 namespace GitPullRequest.Commands.Navigation;
 
-public class NextCommand() : Command<System.CommandLine.EmptyCommandOptions, NextCommandHandler>("next", "Switch to the next stack.");
+public class NextCommand()
+    : Command<System.CommandLine.EmptyCommandOptions, NextCommandHandler>(
+        "next",
+        "Switch to the next stack."
+    );
 
-public class NextCommandHandler(IConsole console, INavigation navigation) : ICommandOptionsHandler<System.CommandLine.EmptyCommandOptions>
+public class NextCommandHandler(IConsole console, INavigation navigation)
+    : ICommandOptionsHandler<System.CommandLine.EmptyCommandOptions>
 {
-
-    public async Task<int> HandleAsync(System.CommandLine.EmptyCommandOptions options, CancellationToken cancellationToken)
+    public async Task<int> HandleAsync(
+        System.CommandLine.EmptyCommandOptions options,
+        CancellationToken cancellationToken
+    )
     {
         switch (navigation.Next())
         {

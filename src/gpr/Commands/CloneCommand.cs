@@ -20,20 +20,33 @@ public class CloneCommandOptions : ICommandOptions
     public required Uri Repo { get; set; }
 }
 
-public class CloneCommandOptionsHandler(IConsole console, IO io) : ICommandOptionsHandler<CloneCommandOptions>
+public class CloneCommandOptionsHandler(IConsole console, IO io)
+    : ICommandOptionsHandler<CloneCommandOptions>
 {
-
-    public async Task<int> HandleAsync(CloneCommandOptions options, CancellationToken cancellationToken)
+    public async Task<int> HandleAsync(
+        CloneCommandOptions options,
+        CancellationToken cancellationToken
+    )
     {
         var url = options.Repo;
         var dir = url.AbsolutePath.Split('/').Last().Replace(".git", "");
         console.WriteLine($"Cloning {url} to {dir}");
-            
-        await Spinner.StartAsync($"Cloning {url} to {dir}", async spinner =>
-        {
-            var repo = await Task.Run(() => Repository.Clone(url.ToString(), Path.Combine(io.GetCurrentDirectory(), dir)), cancellationToken);
-            spinner.Stop($"Cloned to {repo}");
-        });
+
+        await Spinner.StartAsync(
+            $"Cloning {url} to {dir}",
+            async spinner =>
+            {
+                var repo = await Task.Run(
+                    () =>
+                        Repository.Clone(
+                            url.ToString(),
+                            Path.Combine(io.GetCurrentDirectory(), dir)
+                        ),
+                    cancellationToken
+                );
+                spinner.Stop($"Cloned to {repo}");
+            }
+        );
         return (0);
     }
 }
