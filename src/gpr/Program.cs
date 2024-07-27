@@ -1,5 +1,6 @@
 ﻿using System.CommandLine;
 using System.CommandLine.Builder;
+using System.CommandLine.Help;
 using System.CommandLine.Parsing;
 using GitPullRequest;
 using GitPullRequest.Commands;
@@ -10,29 +11,7 @@ using LibGit2Sharp;
 using Microsoft.Extensions.DependencyInjection;
 using Spectre.Console;
 
-var rootCommand = new RootCommand
-{
-    // repo-less commands
-    new CloneCommand(),
-    // Navigation commands
-    new PrevCommand(),
-    new NextCommand(), // switch stacks
-    new UpCommand(),
-    new DownCommand(),
-    new TopCommand(),
-    new BottomCommand(),
-    // stack commands
-    // absorb,
-
-    // commit commands
-    new AddCommand(),
-    new CommitCommand(),
-    new AmendCommand(),
-    new StatusCommand(),
-    // remote commands
-    new PullRequestCommand(),
-    new PullCommand(),
-};
+var rootCommand = new GitPullRequestCommand();
 
 if (!Console.IsOutputRedirected && !Console.IsInputRedirected)
 {
@@ -42,6 +21,15 @@ if (!Console.IsOutputRedirected && !Console.IsInputRedirected)
 
 var builder = new CommandLineBuilder(rootCommand)
     .UseDefaults()
+    .UseHelp(ctx =>
+    {
+        ctx.HelpBuilder.CustomizeLayout(
+            _ =>
+                HelpBuilder.Default
+                    .GetLayout()
+                    .Skip(1) // Skip the default command description section.
+                    .Prepend(_ => AnsiConsole.Write(new FigletText(rootCommand.Description!))));
+    })
     .UseDependencyInjection(services =>
     {
         services.AddScoped<IRepository>(provider =>
