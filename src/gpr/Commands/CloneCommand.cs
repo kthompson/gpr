@@ -11,7 +11,7 @@ public class CloneCommand : Command<CloneCommandOptions, CloneCommandOptionsHand
         : base("clone", "Clone a repository")
     {
         AddArgument(new Argument<Uri>("repo", "The URL of the repository to clone"));
-        this.AddOption(new Option<string>("--to", "The person to say hello to"));
+        AddOption(new Option<string>("--to", "The person to say hello to"));
     }
 }
 

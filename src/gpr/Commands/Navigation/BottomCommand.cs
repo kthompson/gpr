@@ -22,7 +22,7 @@ public class BottomCommandOptionsHandler(IAnsiConsole console, INavigation navig
     {
         switch (navigation.Bottom())
         {
-            case NavigationSuccess(var (_, commit, message)):
+            case NavigationSuccess(var (commit, message)):
                 console.WriteLine($"[{commit}] {message}");
                 return 0;
 

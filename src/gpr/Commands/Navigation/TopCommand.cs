@@ -5,22 +5,22 @@ using Spectre.Console;
 namespace GitPullRequest.Commands.Navigation;
 
 public class TopCommand()
-    : Command<System.CommandLine.EmptyCommandOptions, TopCommandHandler>(
+    : Command<EmptyCommandOptions, TopCommandHandler>(
         "top",
         "Move to the top of your current stack."
     );
 
 public class TopCommandHandler(IAnsiConsole console, INavigation navigation)
-    : ICommandOptionsHandler<System.CommandLine.EmptyCommandOptions>
+    : ICommandOptionsHandler<EmptyCommandOptions>
 {
     public async Task<int> HandleAsync(
-        System.CommandLine.EmptyCommandOptions options,
+        EmptyCommandOptions options,
         CancellationToken cancellationToken
     )
     {
         switch (navigation.Top())
         {
-            case NavigationSuccess(var (_, commit, message)):
+            case NavigationSuccess(var (commit, message)):
                 console.WriteLine($"[{commit}] {message}");
                 return 0;
 

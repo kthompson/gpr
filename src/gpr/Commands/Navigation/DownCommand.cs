@@ -1,26 +1,22 @@
 using System.CommandLine;
 using GitPullRequest.Services;
-using LibGit2Sharp;
 
 namespace GitPullRequest.Commands.Navigation;
 
 public class DownCommand()
-    : Command<System.CommandLine.EmptyCommandOptions, DownCommandHandler>(
+    : Command<EmptyCommandOptions, DownCommandHandler>(
         "down",
-        "Move down your current stack."
+        "Move down your current stack closer to the bottom."
     );
 
 public class DownCommandHandler(IAnsiConsole console, INavigation navigation)
-    : ICommandOptionsHandler<System.CommandLine.EmptyCommandOptions>
+    : ICommandOptionsHandler<EmptyCommandOptions>
 {
-    public async Task<int> HandleAsync(
-        System.CommandLine.EmptyCommandOptions options,
-        CancellationToken cancellationToken
-    )
+    public async Task<int> HandleAsync(EmptyCommandOptions options, CancellationToken cancellationToken)
     {
         switch (navigation.Down())
         {
-            case NavigationSuccess(var (_, commit, message)):
+            case NavigationSuccess(var (commit, message)):
                 console.WriteLine($"[{commit}] {message}");
                 return 0;
 
@@ -31,7 +27,5 @@ public class DownCommandHandler(IAnsiConsole console, INavigation navigation)
             default:
                 throw new InvalidOperationException("Invalid navigation result");
         }
-
-        return 0;
     }
 }

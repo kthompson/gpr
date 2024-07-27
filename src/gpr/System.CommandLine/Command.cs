@@ -11,7 +11,7 @@ public abstract class Command<TOptions, TOptionsHandler> : Command
     protected Command(string name, string description)
         : base(name, description)
     {
-        this.Handler = CommandHandler.Create<TOptions, IServiceProvider, CancellationToken>(
+        Handler = CommandHandler.Create<TOptions, IServiceProvider, CancellationToken>(
             HandleOptions
         );
     }

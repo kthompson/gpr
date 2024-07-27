@@ -2,7 +2,7 @@ using LibGit2Sharp;
 
 namespace GitPullRequest.Services;
 
-public record Location(string Stack, string Commit, string Message);
+public record Location(string Commit, string Message);
 
 public abstract record NavigationResult;
 
@@ -20,7 +20,11 @@ public interface INavigation
     NavigationResult Up();
     NavigationResult Down();
 }
-
+/**
+ * Tracking stacks:
+ *  - each stack is the tip/top of a branch in the repository with a name like `stack/1`, `stack/2`, etc.
+ *  - the current commit is tracked with another branch named `stack/current`
+  */
 public class Navigation : INavigation
 {
     public Navigation(IRepository repository) { }

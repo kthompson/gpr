@@ -4,22 +4,22 @@ using GitPullRequest.Services;
 namespace GitPullRequest.Commands.Navigation;
 
 public class NextCommand()
-    : Command<System.CommandLine.EmptyCommandOptions, NextCommandHandler>(
+    : Command<EmptyCommandOptions, NextCommandHandler>(
         "next",
         "Switch to the next stack."
     );
 
 public class NextCommandHandler(IAnsiConsole console, INavigation navigation)
-    : ICommandOptionsHandler<System.CommandLine.EmptyCommandOptions>
+    : ICommandOptionsHandler<EmptyCommandOptions>
 {
     public async Task<int> HandleAsync(
-        System.CommandLine.EmptyCommandOptions options,
+        EmptyCommandOptions options,
         CancellationToken cancellationToken
     )
     {
         switch (navigation.Next())
         {
-            case NavigationSuccess(var (_, commit, message)):
+            case NavigationSuccess(var (commit, message)):
                 console.WriteLine($"[{commit}] {message}");
                 return 0;
 
