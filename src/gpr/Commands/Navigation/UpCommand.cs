@@ -4,7 +4,10 @@ using GitPullRequest.Services;
 namespace GitPullRequest.Commands.Navigation;
 
 public class UpCommand()
-    : Command<EmptyCommandOptions, UpCommandHandler>("up", "Move up your current stack closer to the top.");
+    : Command<EmptyCommandOptions, UpCommandHandler>(
+        "up",
+        "Move up your current stack closer to the top."
+    );
 
 public class UpCommandHandler(IAnsiConsole console, INavigation navigation)
     : ICommandOptionsHandler<EmptyCommandOptions>

@@ -13,7 +13,8 @@ public class GitPullRequestCommand : Command<EmptyCommandOptions, GitPullRequest
     private static string? _executablePath;
     private static string? _executableName;
 
-    public GitPullRequestCommand() : base(ExecutableName, "gpr")
+    public GitPullRequestCommand()
+        : base(ExecutableName, "gpr")
     {
         // repo-less commands
         Add(new CloneCommand());
@@ -25,7 +26,7 @@ public class GitPullRequestCommand : Command<EmptyCommandOptions, GitPullRequest
         Add(new DownCommand());
         Add(new TopCommand());
         Add(new BottomCommand());
-        
+
         // stack commands
         // absorb,
 
@@ -39,18 +40,16 @@ public class GitPullRequestCommand : Command<EmptyCommandOptions, GitPullRequest
         Add(new PullRequestCommand());
         Add(new PullCommand());
     }
-    
-    
-    internal static Assembly GetAssembly()
-        => _assembly ??= (Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly());
+
+    internal static Assembly GetAssembly() =>
+        _assembly ??= (Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly());
 
     /// <summary>
     /// The name of the currently running executable.
     /// </summary>
-    private static string ExecutableName
-        => _executableName ??= Path.GetFileNameWithoutExtension(ExecutablePath).Replace(" ", "");
-    
-    
+    private static string ExecutableName =>
+        _executableName ??= Path.GetFileNameWithoutExtension(ExecutablePath).Replace(" ", "");
+
     /// <summary>
     /// The path to the currently running executable.
     /// </summary>
@@ -68,15 +67,15 @@ public class GitPullRequestCommandHandler(IAnsiConsole console, IO io)
         if (repoPath == null)
         {
             console.WriteLine("Not a git repository.");
-            return Task.FromResult(-1);   
+            return Task.FromResult(-1);
         }
-        
+
         var repo = new Repository(repoPath);
         foreach (var branch in repo.Branches)
         {
             console.WriteLine(branch.FriendlyName);
         }
-        
+
         return Task.FromResult(0);
     }
 }

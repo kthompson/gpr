@@ -12,7 +12,10 @@ public class DownCommand()
 public class DownCommandHandler(IAnsiConsole console, INavigation navigation)
     : ICommandOptionsHandler<EmptyCommandOptions>
 {
-    public async Task<int> HandleAsync(EmptyCommandOptions options, CancellationToken cancellationToken)
+    public async Task<int> HandleAsync(
+        EmptyCommandOptions options,
+        CancellationToken cancellationToken
+    )
     {
         switch (navigation.Down())
         {

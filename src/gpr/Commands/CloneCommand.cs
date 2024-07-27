@@ -30,14 +30,12 @@ public class CloneCommandOptionsHandler(IAnsiConsole console, IO io)
     {
         var url = options.Repo;
         var dir = url.AbsolutePath.Split('/').Last().Replace(".git", "");
-        
-        await console.Progress()
+
+        await console
+            .Progress()
             .AutoRefresh(true)
             .HideCompleted(true)
-            .Columns([
-                new SpinnerColumn(Spinner.Known.Dots2),
-                new TaskDescriptionColumn(),
-            ])
+            .Columns([new SpinnerColumn(Spinner.Known.Dots2), new TaskDescriptionColumn(),])
             .StartAsync(async context =>
             {
                 var task = context.AddTask($"Cloning {url} to {dir}");
@@ -51,7 +49,7 @@ public class CloneCommandOptionsHandler(IAnsiConsole console, IO io)
                 );
                 task.StopTask();
             });
-        
+
         return 0;
     }
 }

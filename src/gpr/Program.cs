@@ -23,12 +23,12 @@ var builder = new CommandLineBuilder(rootCommand)
     .UseDefaults()
     .UseHelp(ctx =>
     {
-        ctx.HelpBuilder.CustomizeLayout(
-            _ =>
-                HelpBuilder.Default
-                    .GetLayout()
-                    .Skip(1) // Skip the default command description section.
-                    .Prepend(_ => AnsiConsole.Write(new FigletText(rootCommand.Description!))));
+        ctx.HelpBuilder.CustomizeLayout(_ =>
+            HelpBuilder
+                .Default.GetLayout()
+                .Skip(1) // Skip the default command description section.
+                .Prepend(_ => AnsiConsole.Write(new FigletText(rootCommand.Description!)))
+        );
     })
     .UseDependencyInjection(services =>
     {

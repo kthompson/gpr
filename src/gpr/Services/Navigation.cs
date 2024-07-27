@@ -20,6 +20,7 @@ public interface INavigation
     NavigationResult Up();
     NavigationResult Down();
 }
+
 /**
  * Tracking stacks:
  *  - each stack is the tip/top of a branch in the repository with a name like `stack/1`, `stack/2`, etc.
