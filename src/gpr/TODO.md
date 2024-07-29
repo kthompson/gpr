@@ -13,7 +13,6 @@
 * restack
 
 # commit commands
-* Add
 * Commit
 * Amend
 * default op/log
