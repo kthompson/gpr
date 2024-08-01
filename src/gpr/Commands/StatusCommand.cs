@@ -1,4 +1,5 @@
 using System.CommandLine;
+using GitPullRequest.Services;
 using LibGit2Sharp;
 
 namespace GitPullRequest.Commands;
@@ -12,62 +13,33 @@ public class StatusCommand : Command<EmptyCommandOptions, StatusCommandHandler>
     }
 }
 
-public class StatusCommandHandler(IAnsiConsole console, IRepository repo)
+public class StatusCommandHandler(IAnsiConsole console, IGetStatus getStatus)
     : ICommandOptionsHandler<EmptyCommandOptions>
 {
-    public async Task<int> HandleAsync(
-        EmptyCommandOptions options,
-        CancellationToken cancellationToken
-    )
+    public Task<int> HandleAsync(EmptyCommandOptions options, CancellationToken cancellationToken)
     {
-        var status = repo.RetrieveStatus(
-            new StatusOptions
-            {
-                Show = StatusShowOption.IndexAndWorkDir,
-                DetectRenamesInIndex = true,
-                DetectRenamesInWorkDir = true,
-            }
-        );
+        var status = getStatus.GetStatus();
 
-        foreach (var entry in status)
+        foreach (var (filePath, state) in status.Entries)
         {
-            var state = entry.State;
-
-            var ignored = state == FileStatus.Ignored;
-            if (ignored)
-                continue;
-
-            var renamed = (state & (FileStatus.RenamedInIndex | FileStatus.RenamedInWorkdir)) != 0;
-            if (renamed)
+            switch (state)
             {
-                console.MarkupLine($"[red3_1]R {entry.FilePath}[/]");
-                continue;
+                case GprFileStatus.Renamed:
+                    console.MarkupLine($"[red3_1]R {filePath}[/]");
+                    continue;
+                case GprFileStatus.Modified:
+                    console.MarkupLine($"[dodgerblue2]M {filePath}[/]");
+                    continue;
+                case GprFileStatus.New:
+                    console.MarkupLine($"[hotpink2][underline]? {filePath}[/][/]");
+                    continue;
+                case GprFileStatus.Added:
+                    console.MarkupLine($"[green]A {filePath}[/]");
+                    continue;
+                default:
+                    throw new ArgumentOutOfRangeException(state + ": " + filePath);
             }
-
-            var modified =
-                (state & (FileStatus.ModifiedInIndex | FileStatus.ModifiedInWorkdir)) != 0;
-            if (modified)
-            {
-                console.MarkupLine($"[dodgerblue2]M {entry.FilePath}[/]");
-                continue;
-            }
-
-            var untracked = (state & (FileStatus.NewInWorkdir)) != 0;
-            if (untracked)
-            {
-                console.MarkupLine($"[hotpink2][underline]? {entry.FilePath}[/][/]");
-                continue;
-            }
-
-            var added = (state & FileStatus.NewInIndex) == FileStatus.NewInIndex;
-            if (added)
-            {
-                console.MarkupLine($"[green]A {entry.FilePath}[/]");
-                continue;
-            }
-
-            throw new ArgumentOutOfRangeException(entry.State + ": " + entry.FilePath);
         }
-        return 0;
+        return Task.FromResult(0);
     }
 }

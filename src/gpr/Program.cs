@@ -8,6 +8,7 @@ using GitPullRequest.Commands.Navigation;
 using GitPullRequest.Commands.Remote;
 using GitPullRequest.Services;
 using LibGit2Sharp;
+using LibGit2Sharp.Handlers;
 using Microsoft.Extensions.DependencyInjection;
 using Spectre.Console;
 
@@ -41,6 +42,7 @@ var builder = new CommandLineBuilder(rootCommand)
 
         services.AddSingleton(AnsiConsole.Console);
         services.AddScoped<INavigation, Navigation>();
+        services.AddScoped<IGetStatus, GetStatusHandler>();
         services.AddSingleton<IO, SystemIO>();
         services.AddSingleton<IGitHub, GitHub>();
     });
