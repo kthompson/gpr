@@ -42,6 +42,7 @@ var builder = new CommandLineBuilder(rootCommand)
         services.AddSingleton(AnsiConsole.Console);
         services.AddScoped<INavigation, Navigation>();
         services.AddSingleton<IO, SystemIO>();
+        services.AddSingleton<IGitHub, GitHub>();
     });
 
 return builder.Build().Invoke(args);
