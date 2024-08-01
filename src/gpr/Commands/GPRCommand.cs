@@ -32,6 +32,7 @@ public class GitPullRequestCommand : Command<EmptyCommandOptions, GitPullRequest
 
         // commit commands
         Add(new AddCommand());
+        Add(new ForgetCommand());
         Add(new CommitCommand());
         Add(new AmendCommand());
         Add(new StatusCommand());
