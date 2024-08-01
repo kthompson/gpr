@@ -19,10 +19,7 @@ public class AddCommandOptions : ICommandOptions
 
 public class AddCommandOptionsHandler(IRepository repo) : ICommandOptionsHandler<AddCommandOptions>
 {
-    public async Task<int> HandleAsync(
-        AddCommandOptions options,
-        CancellationToken cancellationToken
-    )
+    public Task<int> HandleAsync(AddCommandOptions options, CancellationToken cancellationToken)
     {
         // get relative path of the file from the repo root
         var relativePath = options.UntrackedFile.FullName.Substring(
@@ -30,6 +27,6 @@ public class AddCommandOptionsHandler(IRepository repo) : ICommandOptionsHandler
         );
         repo.Index.Add(relativePath);
         repo.Index.Write();
-        return 0;
+        return Task.FromResult(0);
     }
 }

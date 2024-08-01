@@ -28,7 +28,10 @@ public interface INavigation
   */
 public class Navigation : INavigation
 {
-    public Navigation(IRepository repository) { }
+    public Navigation(IRepository repository)
+    {
+        this.CurrentLocation = new Location("", "");
+    }
 
     public Location CurrentLocation { get; private set; }
 

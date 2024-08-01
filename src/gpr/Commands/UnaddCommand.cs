@@ -21,10 +21,7 @@ public class ForgetCommandOptions : ICommandOptions
 public class ForgetCommandOptionsHandler(IRepository repo)
     : ICommandOptionsHandler<ForgetCommandOptions>
 {
-    public async Task<int> HandleAsync(
-        ForgetCommandOptions options,
-        CancellationToken cancellationToken
-    )
+    public Task<int> HandleAsync(ForgetCommandOptions options, CancellationToken cancellationToken)
     {
         // get relative path of the file from the repo root
         var relativePath = options.UntrackedFile.FullName.Substring(
@@ -32,6 +29,6 @@ public class ForgetCommandOptionsHandler(IRepository repo)
         );
         repo.Index.Remove(relativePath);
         repo.Index.Write();
-        return 0;
+        return Task.FromResult(0);
     }
 }
