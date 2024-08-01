@@ -1,4 +1,5 @@
 using System.CommandLine;
+using GitPullRequest.Services;
 using LibGit2Sharp;
 
 namespace GitPullRequest.Commands.Remote;
@@ -9,22 +10,9 @@ public class PullCommand()
         "Pull changes from the remote repository"
     );
 
-public class PullCommandHandler(IAnsiConsole console, IRepository repo)
+public class PullCommandHandler(IAnsiConsole console, IGitHub gh, IRepository repo)
     : ICommandOptionsHandler<EmptyCommandOptions>
 {
-    async Task<string> Exec(string cmd, string args)
-    {
-        var proc = new System.Diagnostics.Process();
-        proc.StartInfo.FileName = cmd;
-        proc.StartInfo.Arguments = args;
-        proc.StartInfo.UseShellExecute = false;
-        proc.StartInfo.RedirectStandardOutput = true;
-        proc.Start();
-        var result = await proc.StandardOutput.ReadToEndAsync();
-        await proc.WaitForExitAsync();
-        return result;
-    }
-
     public async Task<int> HandleAsync(
         EmptyCommandOptions options,
         CancellationToken cancellationToken
@@ -34,7 +22,7 @@ public class PullCommandHandler(IAnsiConsole console, IRepository repo)
         var remote = repo.Network.Remotes.First();
 
         console.WriteLine($"Pulling from {remote.Url}");
-        var token = (await Exec("gh", "auth token")).Trim();
+        var token = await gh.GetTokenAsync();
 
         await Task.Run(
             () =>
