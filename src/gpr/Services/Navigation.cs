@@ -17,8 +17,6 @@ public interface INavigation
     NavigationResult Previous();
     NavigationResult Top();
     NavigationResult Bottom();
-    NavigationResult Up();
-    NavigationResult Down();
 }
 
 /**
@@ -51,16 +49,6 @@ public class Navigation : INavigation
     }
 
     public NavigationResult Bottom()
-    {
-        return new NavigationFailure(new NotImplementedException());
-    }
-
-    public NavigationResult Up()
-    {
-        return new NavigationFailure(new NotImplementedException());
-    }
-
-    public NavigationResult Down()
     {
         return new NavigationFailure(new NotImplementedException());
     }

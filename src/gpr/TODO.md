@@ -3,8 +3,6 @@
 # Navigation commands
 * Prev
 * Next
-* Up
-* Down
 * Top
 * Bottom
 

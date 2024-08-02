@@ -21,9 +21,7 @@ public class GitPullRequestCommand : Command<EmptyCommandOptions, GitPullRequest
 
         // Navigation commands
         Add(new PrevCommand());
-        Add(new NextCommand()); // switch stack
-        Add(new UpCommand());
-        Add(new DownCommand());
+        Add(new NextCommand());
         Add(new TopCommand());
         Add(new BottomCommand());
 
