@@ -74,39 +74,11 @@ public class GitPullRequestCommandHandler(IAnsiConsole console, IO io)
         }
 
         var repo = new Repository(repoPath);
+        var bottomProvider = new BottomProvider(repo);
+        var graphProvider = new GraphProvider(repo, bottomProvider);
+        var graph = graphProvider.GetGraph();
 
-        var originHead = repo.Branches.First(b => b.IsRemote && b.FriendlyName == "origin/HEAD");
-
-        var graph = new Graph<ObjectId, Commit>();
-        // add base node
-        graph.AddNode(originHead.Tip.Id, originHead.Tip, []);
-
-        // add all the branches
-        foreach (var branch in repo.Branches)
-        {
-            if (branch.IsRemote)
-                continue;
-
-            // make sure the branch has a common ancestor with the origin
-
-            if (repo.ObjectDatabase.FindMergeBase(branch.Tip, originHead.Tip) == null)
-                continue;
-
-            var commits = new List<Commit> { branch.Tip };
-            while (commits.Count > 0)
-            {
-                var commit = commits.First();
-                commits.RemoveAt(0);
-                if (commit.Id == originHead.Tip.Id)
-                    continue;
-
-                if (graph.Contains(commit.Id))
-                    continue;
-
-                commits.AddRange(commit.Parents);
-                graph.AddNode(commit.Id, commit, commit.Parents.Select(p => p.Id).ToList());
-            }
-        }
+        var originHead = bottomProvider.GetBottom();
 
         var (layers, detached) = graph.TopologicalSort();
         var layeredCommits = layers
