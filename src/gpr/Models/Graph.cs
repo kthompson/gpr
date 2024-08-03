@@ -176,15 +176,14 @@ public class Graph<TKey, TData> : IEnumerable<KeyValuePair<TKey, TData>>
             if (current.Equals(end)) // A path exists
                 return true;
 
-            if (!OutgoingEdges.TryGetValue(current, out HashSet<TKey> destinations))
+            if (!OutgoingEdges.TryGetValue(current, out var destinations))
                 continue; // No out edges for current
 
             foreach (var destination in destinations)
             {
-                if (tested.Contains(destination))
+                if (!tested.Add(destination))
                     continue;
 
-                tested.Add(destination);
                 queued.Enqueue(destination);
             }
         }
